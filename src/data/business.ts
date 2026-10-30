@@ -9,8 +9,14 @@
  *   address, geo, openingHours, sameAs, foundingDate, paymentAccepted
  */
 
-/** Canonical origin, no trailing slash. Set SITE_URL at build time for previews. */
-export const SITE_URL = (process.env.SITE_URL || 'https://www.finalfixroofing.ca').replace(/\/+$/, '');
+/**
+ * Canonical origin, no trailing slash. On Vercel this is the production
+ * *.vercel.app URL, set automatically at build time. Set SITE_URL to override.
+ */
+const vercelHost = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+export const SITE_URL = (
+  process.env.SITE_URL || (vercelHost ? `https://${vercelHost}` : 'http://localhost:8765')
+).replace(/\/+$/, '');
 
 export interface PostalAddress {
   streetAddress: string;
