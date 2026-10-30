@@ -1,0 +1,19 @@
+{
+  "name": "Final Fix Roofing & Construction",
+  "short_name": "Final Fix Roofing",
+  "description": "Roof repair, roof replacement, leak repair, eavestrough, siding and exterior construction across Southern Ontario. Call 437-869-1930 for a free estimate.",
+  "start_url": "/?utm_source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#0b0d11",
+  "background_color": "#0b0d11",
+  "lang": "en-CA",
+  "icons": [
+    {
+      "src": "/images/logo.png",
+      "sizes": "500x500",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
