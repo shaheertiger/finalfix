@@ -85,5 +85,8 @@ export const BUSINESS = {
   bookingUrl: undefined as string | undefined,
 } as const;
 
+/** Google Ads conversion tag ID. Loaded once per page in <head>. */
+export const GOOGLE_TAG_ID = 'AW-18546344742';
+
 export const PHONE_HREF = `tel:${BUSINESS.phoneE164}`;
 export const SMS_HREF = `sms:${BUSINESS.phoneE164}`;
