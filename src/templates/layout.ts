@@ -1,4 +1,4 @@
-import { BUSINESS, SITE_URL } from '../data/business';
+import { BUSINESS, GOOGLE_TAG_ID, SITE_URL } from '../data/business';
 import { esc, jsonLd, squish } from '../lib/html';
 import { footer, header, topbar } from './partials';
 
@@ -40,6 +40,8 @@ export function renderDocument(page: PageDef): string {
   const head = [
     '<meta charset="utf-8">',
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
+    `<script async src="https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}"></script>`,
+    `<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${GOOGLE_TAG_ID}');</script>`,
     `<title>${esc(title)}</title>`,
     `<meta name="description" content="${esc(description)}">`,
     `<meta name="robots" content="${robots}">`,
