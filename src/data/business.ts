@@ -88,5 +88,11 @@ export const BUSINESS = {
 /** Google Ads conversion tag ID. Loaded once per page in <head>. */
 export const GOOGLE_TAG_ID = 'AW-18546344742';
 
+/**
+ * Google Ads "Contact" conversion (click-based). Fired when a visitor taps
+ * any call, text or email link. Format: "<tag id>/<conversion label>".
+ */
+export const CONTACT_CONVERSION_SEND_TO = `${GOOGLE_TAG_ID}/UhNsCJvkx68dEKaGy4tF`;
+
 export const PHONE_HREF = `tel:${BUSINESS.phoneE164}`;
 export const SMS_HREF = `sms:${BUSINESS.phoneE164}`;

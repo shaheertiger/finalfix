@@ -1,4 +1,4 @@
-import { BUSINESS, GOOGLE_TAG_ID, SITE_URL } from '../data/business';
+import { BUSINESS, CONTACT_CONVERSION_SEND_TO, GOOGLE_TAG_ID, SITE_URL } from '../data/business';
 import { esc, jsonLd, squish } from '../lib/html';
 import { footer, header, topbar } from './partials';
 
@@ -29,6 +29,25 @@ export interface PageDef {
   changefreq: 'weekly' | 'monthly';
 }
 
+/**
+ * Google Ads "Contact" event snippet, plus one delegated click listener so
+ * every tel:, sms: and mailto: link reports a conversion. The link is not
+ * blocked: gtag sends the hit with a beacon while the phone/text app opens.
+ */
+function contactConversionScript(): string {
+  return squish(`<script>
+function gtag_report_conversion(url) {
+  var callback = function () { if (url) { window.location = url; } };
+  gtag('event', 'conversion', { 'send_to': '${CONTACT_CONVERSION_SEND_TO}', 'event_callback': callback });
+  return false;
+}
+document.addEventListener('click', function (e) {
+  var a = e.target && e.target.closest && e.target.closest('a[href^="tel:"], a[href^="sms:"], a[href^="mailto:"]');
+  if (a) { gtag_report_conversion(); }
+});
+</script>`);
+}
+
 /** Render a full HTML document. Head metadata and JSON-LD are baked in. */
 export function renderDocument(page: PageDef): string {
   const url = `${SITE_URL}${page.path}`;
@@ -42,6 +61,7 @@ export function renderDocument(page: PageDef): string {
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
     `<script async src="https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}"></script>`,
     `<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${GOOGLE_TAG_ID}');</script>`,
+    contactConversionScript(),
     `<title>${esc(title)}</title>`,
     `<meta name="description" content="${esc(description)}">`,
     `<meta name="robots" content="${robots}">`,
