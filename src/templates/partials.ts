@@ -1,4 +1,11 @@
-import { BUSINESS, PHONE_HREF, SMS_HREF } from '../data/business';
+import {
+  BUSINESS,
+  PHONE_HREF,
+  QUOTE_FORM_ACTION,
+  SITE_URL,
+  SMS_HREF,
+  THANK_YOU_PATH,
+} from '../data/business';
 import { SERVICES, type FAQ } from '../data/services';
 import { esc } from '../lib/html';
 import { SERVICE_AREA_PATH } from '../data/routes';
@@ -70,17 +77,62 @@ export function faqList(faqs: FAQ[]): string {
   return `<div class="faq-list">\n    ${items}\n  </div>`;
 }
 
-/** Closing call-to-action, repeated at the end of every page. */
+/**
+ * Closing call-to-action, repeated at the end of every page. The FormSubmit
+ * quote form is the primary contact method; call and text sit below it.
+ * Works as a plain HTML POST, no JavaScript needed.
+ */
 export function quoteSection(): string {
+  const serviceOptions = SERVICES.map((s) => `<option>${esc(s.name)}</option>`).join('');
+
   return `<section class="section section-blue" id="quote" aria-labelledby="quote-title">
   <div class="split">
     <div>
       <h2 id="quote-title">Get your free estimate</h2>
-      <p class="lead">Call or text us about your roof. Tell us what is going on and we will take it from there.</p>
+      <p class="lead">Tell us what is going on with your roof and we will get back to you with next steps. Prefer to talk? Call or text us any time.</p>
     </div>
     <div class="quote-panel">
-      <a class="btn-block btn-solid" href="${PHONE_HREF}">Call ${BUSINESS.phoneDisplay}</a>
-      <a class="btn-block btn-ghost" href="${SMS_HREF}">Text Us</a>
+      <form class="quote-form" action="${esc(QUOTE_FORM_ACTION)}" method="POST">
+        <input type="hidden" name="_subject" value="New estimate request from ${esc(BUSINESS.shortName)} website">
+        <input type="hidden" name="_next" value="${esc(`${SITE_URL}${THANK_YOU_PATH}`)}">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="field">
+          <label for="qf-name">Name</label>
+          <input id="qf-name" type="text" name="name" autocomplete="name" required>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="qf-phone">Phone</label>
+            <input id="qf-phone" type="tel" name="phone" autocomplete="tel" required>
+          </div>
+          <div class="field">
+            <label for="qf-email">Email <span class="optional">(optional)</span></label>
+            <input id="qf-email" type="email" name="email" autocomplete="email">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="qf-city">City or town</label>
+            <input id="qf-city" type="text" name="city" autocomplete="address-level2" required>
+          </div>
+          <div class="field">
+            <label for="qf-service">Service</label>
+            <select id="qf-service" name="service">${serviceOptions}<option>Not sure / other</option></select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="qf-message">What is going on with your roof?</label>
+          <textarea id="qf-message" name="message" rows="4" required></textarea>
+        </div>
+        <button class="btn-block btn-solid" type="submit">Request My Free Estimate</button>
+      </form>
+      <p class="quote-alt">Or reach us directly:</p>
+      <div class="quote-alt-row">
+        <a class="btn-block btn-ghost btn-compact" href="${PHONE_HREF}">Call ${BUSINESS.phoneDisplay}</a>
+        <a class="btn-block btn-ghost btn-compact" href="${SMS_HREF}">Text Us</a>
+      </div>
     </div>
   </div>
 </section>`;

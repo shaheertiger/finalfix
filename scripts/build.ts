@@ -19,6 +19,7 @@ import { BUSINESS, SITE_URL } from '../src/data/business';
 import { squish } from '../src/lib/html';
 import { buildLlmsTxt } from '../src/lib/llms';
 import { notFoundPage } from '../src/templates/notFound';
+import { thankYouPage } from '../src/templates/thankYou';
 import { homePage } from '../src/templates/home';
 import { serviceAreaPage } from '../src/templates/serviceArea';
 import { servicePage } from '../src/templates/service';
@@ -55,6 +56,7 @@ function collectPages(): PageDef[] {
     homePage(),
     serviceAreaPage(),
     ...SERVICES.map((service) => servicePage(service)),
+    thankYouPage(),
     notFoundPage(),
   ];
 }

@@ -601,6 +601,90 @@ p {
   gap: 16px;
 }
 
+/* ── Quote form ──────────────────────────────────────────── */
+
+.quote-form {
+  display: grid;
+  gap: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.field label {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.field .optional {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+  color: var(--text-faint);
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  background: var(--bg-panel);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  padding: 12px 14px;
+  font: 16px/1.4 var(--body);
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--blue-light);
+  outline: 2px solid var(--blue-light);
+  outline-offset: 0;
+}
+
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.quote-alt {
+  margin: 8px 0 0;
+  color: var(--text-faint);
+  font-size: 15px;
+}
+
+.quote-alt-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.btn-compact {
+  font-size: 18px;
+  padding: 14px;
+}
+
 /* ── Page hero (service, area, 404) ──────────────────────── */
 
 .page-hero {

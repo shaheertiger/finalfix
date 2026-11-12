@@ -94,5 +94,17 @@ export const GOOGLE_TAG_ID = 'AW-18546344742';
  */
 export const CONTACT_CONVERSION_SEND_TO = `${GOOGLE_TAG_ID}/UhNsCJvkx68dEKaGy4tF`;
 
+/**
+ * Quote form, handled by FormSubmit (https://formsubmit.co). Submissions are
+ * emailed to QUOTE_FORM_EMAIL. The first submission sends a one-time
+ * "Activate Form" email to that inbox; nothing is delivered until it is
+ * clicked. After activation, FormSubmit also offers a random alias string
+ * that can replace the address here so it is not visible in the page source.
+ */
+export const QUOTE_FORM_EMAIL = 'safiqzoro96@gmail.com';
+export const QUOTE_FORM_ACTION = `https://formsubmit.co/${QUOTE_FORM_EMAIL}`;
+/** Where FormSubmit sends the visitor after a successful submission. */
+export const THANK_YOU_PATH = '/thank-you';
+
 export const PHONE_HREF = `tel:${BUSINESS.phoneE164}`;
 export const SMS_HREF = `sms:${BUSINESS.phoneE164}`;
