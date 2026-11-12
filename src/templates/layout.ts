@@ -1,6 +1,6 @@
 import { BUSINESS, CONTACT_CONVERSION_SEND_TO, GOOGLE_TAG_ID, SITE_URL } from '../data/business';
 import { esc, jsonLd, squish } from '../lib/html';
-import { footer, header, topbar } from './partials';
+import { ESTIMATE_ANCHOR, footer, header, mobileActionBar, topbar } from './partials';
 
 type Json = Record<string, unknown>;
 
@@ -22,6 +22,8 @@ export interface PageDef {
   body: string;
   /** Extra <head> markup placed right after the Google tag, e.g. a conversion event snippet. */
   headExtra?: string[];
+  /** True when the page shows the first-fold quote form (#estimate). */
+  heroForm?: boolean;
   /** Preload the logo (LCP image) on the homepage only. */
   preloadLogo?: boolean;
   /** Included in sitemap.xml when true. */
@@ -56,6 +58,8 @@ export function renderDocument(page: PageDef): string {
   const logo = `${SITE_URL}${BUSINESS.logoPath}`;
   const title = squish(page.title);
   const description = squish(page.description);
+  // Pages with the first-fold form jump to it in place; others go to the homepage form.
+  const estimateHref = page.heroForm ? `#${ESTIMATE_ANCHOR}` : `/#${ESTIMATE_ANCHOR}`;
   const robots = page.indexable ? 'index, follow' : 'noindex, follow';
 
   const head = [
@@ -109,11 +113,12 @@ ${head.map((line) => `  ${line}`).join('\n')}
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 ${topbar()}
-${header()}
+${header(estimateHref)}
 <main id="main">
 ${page.body}
 </main>
 ${footer()}
+${mobileActionBar(estimateHref)}
 </body>
 </html>
 `;

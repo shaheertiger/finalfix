@@ -3,7 +3,7 @@ import { SERVICES, type Service } from '../data/services';
 import { esc } from '../lib/html';
 import { servicePageSchemas } from '../lib/schema';
 import type { PageDef } from './layout';
-import { breadcrumb, faqList, quoteSection } from './partials';
+import { breadcrumb, faqList, quoteSection, heroQuote } from './partials';
 
 export function servicePage(service: Service): PageDef {
   const features = service.features.map((f) => `<li>${esc(f)}</li>`).join('\n      ');
@@ -24,14 +24,16 @@ ${breadcrumb([
   { name: service.name, path: `/${service.slug}` },
 ])}
 
-<section class="page-hero">
+<section class="page-hero hero-split">
+  <div class="hero-copy">
   <p class="eyebrow">${esc(BUSINESS.name)} · Southern Ontario</p>
   <h1>${esc(service.h1)}</h1>
   <p class="lead speakable">${esc(service.intro)}</p>
-  <div class="cta-row">
-    <a class="btn btn-lg" href="/#quote">Get a Free Estimate</a>
-    <a class="btn btn-lg btn-outline" href="${PHONE_HREF}">${BUSINESS.phoneDisplay}</a>
+  <div class="cta-row hero-call">
+    <a class="btn btn-lg btn-outline" href="${PHONE_HREF}">Call ${BUSINESS.phoneDisplay}</a>
   </div>
+  </div>
+  ${heroQuote(service.name)}
 </section>
 
 <section class="section section-light" aria-labelledby="included-title">
@@ -55,7 +57,7 @@ ${breadcrumb([
   </div>
 </section>
 
-${quoteSection()}`;
+${quoteSection(service.name)}`;
 
   return {
     file: `${service.slug}.html`,
@@ -65,6 +67,7 @@ ${quoteSection()}`;
     ogType: 'website',
     schemas: servicePageSchemas(service),
     body,
+    heroForm: true,
     indexable: true,
     lastmod: BUSINESS.contentUpdated,
     priority: 0.8,

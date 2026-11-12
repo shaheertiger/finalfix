@@ -5,7 +5,7 @@ import { SERVICES } from '../data/services';
 import { esc } from '../lib/html';
 import { serviceAreaSchemas } from '../lib/schema';
 import type { PageDef } from './layout';
-import { breadcrumb, quoteSection } from './partials';
+import { breadcrumb, quoteSection, heroQuote } from './partials';
 
 export function serviceAreaPage(): PageDef {
   const cities = CITIES.map((c) => `<li>${esc(c)}</li>`).join('');
@@ -19,14 +19,16 @@ ${breadcrumb([
   { name: 'Service area', path: SERVICE_AREA_PATH },
 ])}
 
-<section class="page-hero">
+<section class="page-hero hero-split">
+  <div class="hero-copy">
   <p class="eyebrow">${esc(BUSINESS.name)}</p>
   <h1>Roofing service area: 100 miles around Toronto and London</h1>
   <p class="lead speakable">If your home is within ${BUSINESS.serviceAreaRadiusMiles} miles of Toronto or London, Ontario, ${esc(BUSINESS.shortName)} will come to you. Not sure whether your address is in range? Call ${BUSINESS.phoneDisplay} and we will confirm.</p>
-  <div class="cta-row">
-    <a class="btn btn-lg" href="/#quote">Get a Free Estimate</a>
-    <a class="btn btn-lg btn-outline" href="${PHONE_HREF}">${BUSINESS.phoneDisplay}</a>
+  <div class="cta-row hero-call">
+    <a class="btn btn-lg btn-outline" href="${PHONE_HREF}">Call ${BUSINESS.phoneDisplay}</a>
   </div>
+  </div>
+  ${heroQuote()}
 </section>
 
 <section class="section section-panel" aria-labelledby="cities-title">
@@ -52,6 +54,7 @@ ${quoteSection()}`;
     ogType: 'website',
     schemas: serviceAreaSchemas(),
     body,
+    heroForm: true,
     indexable: true,
     lastmod: BUSINESS.contentUpdated,
     priority: 0.7,

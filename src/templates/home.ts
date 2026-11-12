@@ -6,7 +6,7 @@ import { SERVICE_AREA_PATH } from '../data/routes';
 import { esc } from '../lib/html';
 import { homeSchemas } from '../lib/schema';
 import type { PageDef } from './layout';
-import { faqList, quoteSection } from './partials';
+import { faqList, heroQuote, quoteSection } from './partials';
 
 export function homePage(): PageDef {
   const serviceCards = SERVICES.map(
@@ -34,14 +34,11 @@ export function homePage(): PageDef {
     <p class="eyebrow">${esc(BUSINESS.name)}</p>
     <h1 id="hero-title">Roof repair &amp; replacement <span class="accent">Fixed right. Final.</span></h1>
     <p class="lead speakable">Roof replacement, repair and exterior construction for homeowners across Southern Ontario, within 100 miles of Toronto and London.</p>
-    <div class="cta-row">
-      <a class="btn btn-lg" href="#quote">Get a Free Estimate</a>
-      <a class="btn btn-lg btn-outline" href="${PHONE_HREF}">${BUSINESS.phoneDisplay}</a>
+    <div class="cta-row hero-call">
+      <a class="btn btn-lg btn-outline" href="${PHONE_HREF}">Call ${BUSINESS.phoneDisplay}</a>
     </div>
   </div>
-  <div class="hero-art">
-    <img src="/images/logo.png" alt="${esc(BUSINESS.name)} logo" width="${BUSINESS.logoWidth}" height="${BUSINESS.logoHeight}" fetchpriority="high">
-  </div>
+  ${heroQuote()}
 </section>
 
 <section class="section section-light" id="services" aria-labelledby="services-title">
@@ -87,6 +84,7 @@ ${quoteSection()}`;
     ogType: 'business.business',
     schemas: homeSchemas(HOME_FAQS),
     body,
+    heroForm: true,
     preloadLogo: true,
     indexable: true,
     lastmod: BUSINESS.contentUpdated,
