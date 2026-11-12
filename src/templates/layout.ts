@@ -20,6 +20,8 @@ export interface PageDef {
   schemas: Json[];
   /** Inner HTML for <main>. */
   body: string;
+  /** Extra <head> markup placed right after the Google tag, e.g. a conversion event snippet. */
+  headExtra?: string[];
   /** Preload the logo (LCP image) on the homepage only. */
   preloadLogo?: boolean;
   /** Included in sitemap.xml when true. */
@@ -62,6 +64,7 @@ export function renderDocument(page: PageDef): string {
     `<script async src="https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}"></script>`,
     `<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${GOOGLE_TAG_ID}');</script>`,
     contactConversionScript(),
+    ...(page.headExtra ?? []),
     `<title>${esc(title)}</title>`,
     `<meta name="description" content="${esc(description)}">`,
     `<meta name="robots" content="${robots}">`,

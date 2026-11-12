@@ -106,5 +106,11 @@ export const QUOTE_FORM_ACTION = `https://formsubmit.co/${QUOTE_FORM_EMAIL}`;
 /** Where FormSubmit sends the visitor after a successful submission. */
 export const THANK_YOU_PATH = '/thank-you';
 
+/**
+ * Google Ads "Submit lead form" conversion (page load). Fired on the
+ * thank-you page, which visitors only reach after sending the quote form.
+ */
+export const LEAD_FORM_CONVERSION_SEND_TO = `${GOOGLE_TAG_ID}/o5KKCK2WnLcdEKaGy4tF`;
+
 export const PHONE_HREF = `tel:${BUSINESS.phoneE164}`;
 export const SMS_HREF = `sms:${BUSINESS.phoneE164}`;

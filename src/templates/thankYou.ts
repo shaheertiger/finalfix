@@ -1,9 +1,10 @@
-import { BUSINESS, CONTACT_CONVERSION_SEND_TO, PHONE_HREF, THANK_YOU_PATH } from '../data/business';
+import { BUSINESS, LEAD_FORM_CONVERSION_SEND_TO, PHONE_HREF, THANK_YOU_PATH } from '../data/business';
+import { squish } from '../lib/html';
 import type { PageDef } from './layout';
 
 /**
  * Landing page after a FormSubmit quote request. Not indexed. Reports the
- * Google Ads "Contact" conversion once on load, since reaching this page
+ * Google Ads "Submit lead form" conversion on load, since reaching this page
  * means a form was submitted.
  */
 export function thankYouPage(): PageDef {
@@ -14,6 +15,12 @@ export function thankYouPage(): PageDef {
     description: `Your estimate request was sent to ${BUSINESS.name}. We will be in touch shortly. For anything urgent, call ${BUSINESS.phoneDisplay}.`,
     ogType: 'website',
     schemas: [],
+    headExtra: [
+      '<!-- Event snippet for Submit lead form conversion page -->',
+      squish(`<script>
+gtag('event', 'conversion', { 'send_to': '${LEAD_FORM_CONVERSION_SEND_TO}', 'value': 1.0, 'currency': '${BUSINESS.currency}' });
+</script>`),
+    ],
     body: `
 <section class="page-hero">
   <p class="eyebrow">Request received</p>
@@ -23,8 +30,7 @@ export function thankYouPage(): PageDef {
     <a class="btn btn-lg" href="${PHONE_HREF}">Call ${BUSINESS.phoneDisplay}</a>
     <a class="btn btn-lg btn-outline" href="/">Back to home</a>
   </div>
-</section>
-<script>gtag('event', 'conversion', { 'send_to': '${CONTACT_CONVERSION_SEND_TO}' });</script>`,
+</section>`,
     indexable: false,
     lastmod: BUSINESS.contentUpdated,
     priority: 0,
