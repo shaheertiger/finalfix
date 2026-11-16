@@ -3,7 +3,7 @@ import { squish } from '../lib/html';
 import type { PageDef } from './layout';
 
 /**
- * Landing page after a FormSubmit quote request. Not indexed. Reports the
+ * Landing page after a quote form request. Not indexed. Reports the
  * Google Ads "Submit lead form" conversion on load, since reaching this page
  * means a form was submitted.
  */

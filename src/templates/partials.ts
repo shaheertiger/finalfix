@@ -1,6 +1,7 @@
 import {
   BUSINESS,
   PHONE_HREF,
+  QUOTE_FORM_ACCESS_KEY,
   QUOTE_FORM_ACTION,
   SITE_URL,
   SMS_HREF,
@@ -81,7 +82,8 @@ export function faqList(faqs: FAQ[]): string {
 export const ESTIMATE_ANCHOR = 'estimate';
 
 /**
- * The FormSubmit quote form. Plain HTML POST, no JavaScript needed.
+ * The Web3Forms quote form. Works as a plain HTML POST; when JavaScript runs,
+ * the layout's submit handler sends it with fetch for a faster, in-page result.
  * `prefix` keeps element ids unique when a page shows the form twice.
  * `messageRows` sets the details box height (shorter in the first fold).
  * `selectedService` pre-selects that service in the dropdown.
@@ -94,11 +96,11 @@ export function quoteForm(prefix: string, messageRows = 3, selectedService?: str
   ).join('');
 
   return `<form class="quote-form" action="${esc(QUOTE_FORM_ACTION)}" method="POST">
-        <input type="hidden" name="_subject" value="New estimate request from ${esc(BUSINESS.shortName)} website">
-        <input type="hidden" name="_next" value="${esc(`${SITE_URL}${THANK_YOU_PATH}`)}">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="text" name="_honey" class="hp-field" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="access_key" value="${esc(QUOTE_FORM_ACCESS_KEY)}">
+        <input type="hidden" name="subject" value="New estimate request from ${esc(BUSINESS.shortName)} website">
+        <input type="hidden" name="from_name" value="${esc(BUSINESS.shortName)} website">
+        <input type="hidden" name="redirect" value="${esc(`${SITE_URL}${THANK_YOU_PATH}`)}">
+        <input type="checkbox" name="botcheck" class="hp-field" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="field-row">
           <div class="field">
             <label for="${id('name')}">Name</label>
@@ -128,7 +130,7 @@ export function quoteForm(prefix: string, messageRows = 3, selectedService?: str
           <textarea id="${id('message')}" name="message" rows="${messageRows}" placeholder="Leak, missing shingles, full replacement…"></textarea>
         </div>
         <button class="btn-block btn-solid" type="submit">Get My Free Estimate</button>
-        <p class="form-note">Free estimate. No obligation.</p>
+        <p class="form-note" role="status" aria-live="polite">Free estimate. No obligation.</p>
       </form>`;
 }
 

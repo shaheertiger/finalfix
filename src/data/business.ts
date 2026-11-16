@@ -95,15 +95,14 @@ export const GOOGLE_TAG_ID = 'AW-18546344742';
 export const CONTACT_CONVERSION_SEND_TO = `${GOOGLE_TAG_ID}/UhNsCJvkx68dEKaGy4tF`;
 
 /**
- * Quote form, handled by FormSubmit (https://formsubmit.co). Submissions are
- * emailed to QUOTE_FORM_EMAIL. The first submission sends a one-time
- * "Activate Form" email to that inbox; nothing is delivered until it is
- * clicked. After activation, FormSubmit also offers a random alias string
- * that can replace the address here so it is not visible in the page source.
+ * Quote form, handled by Web3Forms (https://web3forms.com). Submissions are
+ * emailed to the inbox the access key was created for (shaheertiger1@gmail.com).
+ * The key is public by design. Web3Forms only accepts submissions sent from a
+ * browser on the free plan, so a curl test from a server is refused.
  */
-export const QUOTE_FORM_EMAIL = 'shaheertiger1@gmail.com';
-export const QUOTE_FORM_ACTION = `https://formsubmit.co/${QUOTE_FORM_EMAIL}`;
-/** Where FormSubmit sends the visitor after a successful submission. */
+export const QUOTE_FORM_ACCESS_KEY = '1927c49f-1b64-4e98-9310-6c807bd891a1';
+export const QUOTE_FORM_ACTION = 'https://api.web3forms.com/submit';
+/** Where the visitor lands after a successful submission. */
 export const THANK_YOU_PATH = '/thank-you';
 
 /**

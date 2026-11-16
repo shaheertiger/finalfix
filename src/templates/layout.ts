@@ -1,4 +1,11 @@
-import { BUSINESS, CONTACT_CONVERSION_SEND_TO, GOOGLE_TAG_ID, SITE_URL } from '../data/business';
+import {
+  BUSINESS,
+  CONTACT_CONVERSION_SEND_TO,
+  GOOGLE_TAG_ID,
+  PHONE_HREF,
+  SITE_URL,
+  THANK_YOU_PATH,
+} from '../data/business';
 import { esc, jsonLd, squish } from '../lib/html';
 import { ESTIMATE_ANCHOR, footer, header, mobileActionBar, topbar } from './partials';
 
@@ -52,6 +59,43 @@ document.addEventListener('click', function (e) {
 </script>`);
 }
 
+/**
+ * Sends any .quote-form with fetch so the visitor sees "Sending..." right away
+ * and lands on the thank-you page as soon as Web3Forms confirms. On an error
+ * the form stays filled in and points the visitor to the phone number.
+ * Without JavaScript the form still posts normally and Web3Forms redirects.
+ */
+function quoteFormScript(): string {
+  return squish(`<script>
+document.addEventListener('submit', function (e) {
+  var form = e.target;
+  if (!form.classList || !form.classList.contains('quote-form') || !window.fetch || !window.FormData) { return; }
+  e.preventDefault();
+  var btn = form.querySelector('button[type="submit"]');
+  var note = form.querySelector('.form-note');
+  var label = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  var ctrl = window.AbortController ? new AbortController() : null;
+  var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 20000) : null;
+  var opts = { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } };
+  if (ctrl) { opts.signal = ctrl.signal; }
+  fetch(form.action, opts)
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      if (!data.success) { throw new Error(data.message || 'Send failed'); }
+      window.location.href = '${THANK_YOU_PATH}';
+    })
+    .catch(function () {
+      btn.disabled = false;
+      btn.textContent = label;
+      note.innerHTML = 'Sorry, that did not send. Please try again or call <a href="${PHONE_HREF}">${BUSINESS.phoneDisplay}</a>.';
+    })
+    .then(function () { if (timer) { clearTimeout(timer); } });
+});
+</script>`);
+}
+
 /** Render a full HTML document. Head metadata and JSON-LD are baked in. */
 export function renderDocument(page: PageDef): string {
   const url = `${SITE_URL}${page.path}`;
@@ -68,6 +112,7 @@ export function renderDocument(page: PageDef): string {
     `<script async src="https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}"></script>`,
     `<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${GOOGLE_TAG_ID}');</script>`,
     contactConversionScript(),
+    quoteFormScript(),
     ...(page.headExtra ?? []),
     `<title>${esc(title)}</title>`,
     `<meta name="description" content="${esc(description)}">`,
