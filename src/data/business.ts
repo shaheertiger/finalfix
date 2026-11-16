@@ -101,7 +101,7 @@ export const CONTACT_CONVERSION_SEND_TO = `${GOOGLE_TAG_ID}/UhNsCJvkx68dEKaGy4tF
  * clicked. After activation, FormSubmit also offers a random alias string
  * that can replace the address here so it is not visible in the page source.
  */
-export const QUOTE_FORM_EMAIL = 'safiqzoro96@gmail.com';
+export const QUOTE_FORM_EMAIL = 'shaheertiger1@gmail.com';
 export const QUOTE_FORM_ACTION = `https://formsubmit.co/${QUOTE_FORM_EMAIL}`;
 /** Where FormSubmit sends the visitor after a successful submission. */
 export const THANK_YOU_PATH = '/thank-you';

@@ -98,7 +98,7 @@ export function quoteForm(prefix: string, messageRows = 3, selectedService?: str
         <input type="hidden" name="_next" value="${esc(`${SITE_URL}${THANK_YOU_PATH}`)}">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
-        <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="text" name="_honey" class="hp-field" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="field-row">
           <div class="field">
             <label for="${id('name')}">Name</label>
